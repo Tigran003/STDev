@@ -87,7 +87,7 @@ This is a Django-based cinema booking system that allows users to manage rooms, 
 
 To run the tests, use the following command:
 ```bash
-    python manage.py tests
+    python manage.py test
  ```
 ## Models
 - **Room**

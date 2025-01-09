@@ -4,10 +4,14 @@ from rest_framework.test import APITestCase
 from django.utils import timezone
 from datetime import timedelta
 from .models import Room, Movie, Schedule, OccupiedSeat
+from django.contrib.auth.models import User
 
 class CinemaAPITests(APITestCase):
 
     def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='testpass')
+        self.client.login(username='testuser', password='testpass')
+
         self.room1 = Room.objects.create(name="Room 1", rows=10, seats_per_row=8)
         self.room2 = Room.objects.create(name="Room 2", rows=12, seats_per_row=10)
         self.movie = Movie.objects.create(title="Movie 1", duration=120, price=3000)
@@ -33,7 +37,8 @@ class CinemaAPITests(APITestCase):
         data = {
             'room': self.room1.id,
             'movie': self.movie.id,
-            'start_time': (timezone.now() + timedelta(days=1)).isoformat()
+            'start_time': (timezone.now() + timedelta(days=1)).isoformat(),
+            'end_time': (timezone.now() + timedelta(days=1, hours=2)).isoformat()  # Adding end_time field
         }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -52,11 +57,12 @@ class CinemaAPITests(APITestCase):
         data = {
             'room': self.room1.id,
             'movie': self.movie.id,
-            'start_time': self.schedule1.start_time.isoformat()
+            'start_time': self.schedule1.start_time.isoformat(),
+            'end_time': (self.schedule1.start_time + timedelta(hours=2)).isoformat()  # Adding end_time field
         }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn('Error', response.json())  # Use response.json() to get the JSON content
+        self.assertIn('error', response.json())  # Use response.json() to get the JSON content
 
     def test_occupied_seat_conflict(self):
         url = reverse('occupiedseat-list')

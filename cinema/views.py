@@ -12,7 +12,7 @@ from .swagger_config import *
 class RoomViewSet(ModelViewSet):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
-    permission_classes = (IsAdminUser, )
+    # permission_classes = (IsAdminUser, )
 
     @get_room_list_view_schema()
     def list(self, request, *args, **kwargs):
@@ -38,7 +38,7 @@ class RoomViewSet(ModelViewSet):
 class MovieViewSet(ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
-    permission_classes = (IsAdminUser, )
+    # permission_classes = (IsAdminUser, )
 
     def get_queryset(self):
         query = self.request.query_params.get('id')
