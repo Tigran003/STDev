@@ -4,6 +4,8 @@ from rest_framework.viewsets import  ModelViewSet
 from rest_framework.permissions import IsAdminUser
 from django.http import JsonResponse
 from rest_framework import status
+from django.db.models import Q
+
 
 
 
@@ -22,6 +24,15 @@ class MovieViewSet(ModelViewSet):
 class ScheduleViewSet(ModelViewSet):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        room_id = self.request.query_params.get('room', None)
+
+        if room_id is not None:
+            queryset = queryset.filter(Q(room__id=room_id))
+
+        return queryset
 
     def create(self,request, *args, **kwargs):
         room = request.data.get('room')

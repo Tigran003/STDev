@@ -9,6 +9,8 @@ This is a Django-based cinema booking system that allows users to manage rooms, 
 - Manage Schedules: Create, update, and delete schedules for movies in specific rooms.
 - Manage Occupied Seats: Track occupied seats for each schedule.
 - JWT Authentication: Secure access with JSON Web Tokens.
+- API Documentation: Swagger and Redoc UI for API schema documentation.
+
 
 ## Installation
 
