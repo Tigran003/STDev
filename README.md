@@ -16,8 +16,8 @@ This is a Django-based cinema booking system that allows users to manage rooms, 
 
 1. **Clone the repository:**
     ```bash
-    git clone <repository_url>
-    cd <repository_directory>
+    git clone https://github.com/Tigran003/STDev.git
+    cd STDev
     ```
 
 2. **Create and activate a virtual environment:**
@@ -87,7 +87,7 @@ This is a Django-based cinema booking system that allows users to manage rooms, 
 
 To run the tests, use the following command:
 ```bash
-    python manage.py test
+    python manage.py tests
  ```
 ## Models
 - **Room**
@@ -130,6 +130,3 @@ To run the tests, use the following command:
   - Serializer for the Schedule model.
 - **SeatSerializer**
   - Serializer for the OccupiedSeat model.
-
-## License
-This project is licensed under the MIT License.

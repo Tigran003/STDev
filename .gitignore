@@ -18,6 +18,8 @@ media/
 staticfiles/
 local_settings.py
 
+migrations/
+
 # Secrets
 *.env
 

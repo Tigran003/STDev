@@ -191,6 +191,12 @@ USE_I18N = True
 USE_TZ = True
 
 
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'STDev task API',
+    'DESCRIPTION': 'This API provides access to manage the application process. It includes models for room,movie,schedule and occupiedseat. With this API, you can create, read, update, and delete data.',
+    'VERSION': '1.0.0',
+}
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
