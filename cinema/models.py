@@ -45,7 +45,5 @@ class OccupiedSeat(models.Model):
         help_text="Stores the seat position as [row, column]"
     )
 
-    def __str__(self):
-        return f"Seat at Row {self.position[0]}, Column {self.position[1]}"
 
 
