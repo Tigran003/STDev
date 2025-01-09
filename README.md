@@ -87,84 +87,47 @@ To run the tests, use the following command:
 ```bash
     python manage.py test
  ```
-Models
+## Models
+- **Room**
+  - `name`: Name of the room.
+  - `rows`: Number of rows in the room.
+  - `seats_per_row`: Number of seats per row.
+- **Movie**
+  - `title`: Title of the movie.
+  - `poster`: Poster image of the movie.
+  - `price`: Price of the movie ticket.
+  - `background_image`: Background image for the movie.
+  - `duration`: Duration of the movie in minutes.
+- **Schedule**
+  - `room`: Foreign key to the Room model.
+  - `movie`: Foreign key to the Movie model.
+  - `start_time`: Start time of the movie.
+  - `end_time`: End time of the movie, calculated based on the duration if not provided.
+- **OccupiedSeat**
+  - `schedule`: Foreign key to the Schedule model.
+  - `position`: Array field to store the seat position as `[row, column]`.
 
-Room
+## Views
+- **RoomViewSet**
+  - Handles CRUD operations for the Room model.
+- **MovieViewSet**
+  - Handles CRUD operations for the Movie model.
+- **ScheduleViewSet**
+  - Handles CRUD operations for the Schedule model. Includes validation for schedule conflicts.
+- **OccupiedSeatViewSet**
+  - Handles CRUD operations for the OccupiedSeat model. Includes validation for seat position and conflicts.
 
--name: Name of the room.
+## Serializers
+- **CustomTokenObtainPairSerializer**
+  - Handles user authentication and JWT token generation.
+- **RoomSerializer**
+  - Serializer for the Room model.
+- **MovieSerializer**
+  - Serializer for the Movie model.
+- **ScheduleSerializer**
+  - Serializer for the Schedule model.
+- **SeatSerializer**
+  - Serializer for the OccupiedSeat model.
 
--rows: Number of rows in the room.
-
--seats_per_row: Number of seats per row.
-
-Movie
-
--title: Title of the movie.
-
--poster: Poster image of the movie.
-
--price: Price of the movie ticket.
-
--background_image: Background image for the movie.
-
--duration: Duration of the movie in minutes.
-
-Schedule
-
--room: Foreign key to the Room model.
-
--movie: Foreign key to the Movie model.
-
--start_time: Start time of the movie.
-
--end_time: End time of the movie, calculated based on the duration if not provided.
-
-OccupiedSeat
-
--schedule: Foreign key to the Schedule model.
-
--position: Array field to store the seat position as [row, column].
-
-Views
-
-RoomViewSet
-
--Handles CRUD operations for the Room model.
-
-MovieViewSet
-
--Handles CRUD operations for the Movie model.
-
-ScheduleViewSet
-
--Handles CRUD operations for the Schedule model. Includes validation for schedule conflicts.
-
-OccupiedSeatViewSet
-
--Handles CRUD operations for the OccupiedSeat model. Includes validation for seat position and conflicts.
-
-Serializers
-
-CustomTokenObtainPairSerializer
-
--Handles user authentication and JWT token generation.
-
-RoomSerializer
-
--Serializer for the Room model.
-
-MovieSerializer
-
--Serializer for the Movie model.
-
-ScheduleSerializer
-
--Serializer for the Schedule model.
-
-SeatSerializer
-
--Serializer for the OccupiedSeat model.
-
-License
-
+## License
 This project is licensed under the MIT License.
