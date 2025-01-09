@@ -14,6 +14,8 @@ class Room(models.Model):
 class Movie(models.Model):
     title = models.CharField(max_length=100)
     poster = models.ImageField(upload_to='posters/',blank=True)
+    price = models.IntegerField(default=0)
+    background_image = models.ImageField(upload_to='background/', blank=True, null=True)
     duration = models.IntegerField(help_text="Duration in minutes")
 
     def __str__(self):
