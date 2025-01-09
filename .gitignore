@@ -1,0 +1,87 @@
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+
+# Virtual environment
+env/
+venv/
+ENV/
+.VENV/
+
+# Django stuff
+db.sqlite3
+*.log
+media/
+staticfiles/
+local_settings.py
+
+# Secrets
+*.env
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*.swn
+*.orig
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Python egg files
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Testing
+.tox/
+.coverage
+*.cover
+.hypothesis/
+
+# Pipenv
+Pipfile
+Pipfile.lock
+
+# MyPy
+.mypy_cache/
+
+# Pytest
+.pytest_cache/
+
+# Docker
+*.pid
+*.sock
+*.log
+*.pid.lock
+docker-compose.override.yml
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Coverage reports
+htmlcov/
+.coverage.*
+
+# Local .env files
+.env.*
+
+# Node modules (if applicable)
+node_modules/
+
+# Yarn files (if applicable)
+yarn-error.log
