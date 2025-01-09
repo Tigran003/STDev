@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-acx#h)mk0&$qg%)g62$vgo%k9zjmr2-gt4ib2^tct4&nwx-msx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -69,9 +69,8 @@ REST_FRAMEWORK = {
     ],
 }
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000"
-]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=580),
@@ -145,10 +144,10 @@ WSGI_APPLICATION = 'task.wsgi.application'
 DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.postgresql',
-         'NAME': 'STDev',
+         'NAME': 'main',
          'USER': 'postgres',
-         'PASSWORD': 'qwerty',
-         'HOST': 'localhost',
+         'PASSWORD': 'admin',
+         'HOST': '51.20.142.3',
          'PORT': '5432',
      }
  }
