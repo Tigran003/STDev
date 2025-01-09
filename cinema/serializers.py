@@ -5,6 +5,7 @@ from rest_framework import serializers
 
 
 
+
 class CustomTokenObtainPairSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()

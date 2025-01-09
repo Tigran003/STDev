@@ -1,18 +1,18 @@
+from django.db.models import Q
+from django.http import JsonResponse
+from django.utils.dateparse import parse_datetime
+from rest_framework import status
+from rest_framework.permissions import IsAdminUser
+from rest_framework.viewsets import ModelViewSet
 from .models import Room, Movie, Schedule, OccupiedSeat
 from .serializers import RoomSerializer, MovieSerializer, ScheduleSerializer, SeatSerializer
-from rest_framework.viewsets import  ModelViewSet
-from rest_framework.permissions import IsAdminUser
-from django.http import JsonResponse
-from rest_framework import status
-from django.db.models import Q
 from .swagger_config import *
-
 
 
 class RoomViewSet(ModelViewSet):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
-    # permission_classes = (IsAdminUser, )
+    permission_classes = (IsAdminUser, )
 
     @get_room_list_view_schema()
     def list(self, request, *args, **kwargs):
@@ -35,13 +35,10 @@ class RoomViewSet(ModelViewSet):
         return super().destroy(request, *args, **kwargs)
 
 
-
-
-
 class MovieViewSet(ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
-    # permission_classes = (IsAdminUser, )
+    permission_classes = (IsAdminUser, )
 
     def get_queryset(self):
         query = self.request.query_params.get('id')
@@ -91,12 +88,34 @@ class ScheduleViewSet(ModelViewSet):
         return queryset
 
     @get_schedule_create_view_schema()
-    def create(self,request, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         room = request.data.get('room')
-        start_time = request.data.get('start_time')
+        start_time_str = request.data.get('start_time')
+        end_time_str = request.data.get('end_time')
 
-        if Schedule.objects.filter(start_time=start_time,room=room).exists():
-            return JsonResponse({'Error': "--------------------"},
+        if not room or not start_time_str or not end_time_str:
+            return JsonResponse({'error': 'Room, start time, and end time must be provided.'},
+                                status=status.HTTP_400_BAD_REQUEST)
+
+        start_time = parse_datetime(start_time_str)
+        end_time = parse_datetime(end_time_str)
+
+        if not start_time or not end_time:
+            return JsonResponse({'error': 'Invalid date format.'},
+                                status=status.HTTP_400_BAD_REQUEST)
+
+        start_time_only = start_time.time()
+        end_time_only = end_time.time()
+
+        overlapping_schedules = Schedule.objects.filter(
+            room=room,
+            start_time__date=start_time.date(),
+            start_time__time__lt=end_time_only,
+            end_time__time__gt=start_time_only
+        ).exists()
+
+        if overlapping_schedules:
+            return JsonResponse({'error': 'This schedule overlaps with another schedule in the same room.'},
                                 status=status.HTTP_400_BAD_REQUEST)
 
         return super().create(request, *args, **kwargs)
