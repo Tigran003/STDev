@@ -1,6 +1,7 @@
 from datetime import timedelta
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
+from django.core.exceptions import ValidationError
 
 
 class Room(models.Model):
@@ -21,6 +22,7 @@ class Movie(models.Model):
     def __str__(self):
         return self.title
 
+
 class Schedule(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='schedules')
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='schedules')
@@ -28,13 +30,23 @@ class Schedule(models.Model):
     end_time = models.DateTimeField(blank=True)
 
     def save(self, *args, **kwargs):
+
         if not self.end_time:
             self.end_time = self.start_time + timedelta(minutes=self.movie.duration)
+
+        overlapping_schedules = Schedule.objects.filter(
+            room=self.room,
+            start_time__lt=self.end_time,
+            end_time__gt=self.start_time
+        ).exists()
+
+        if overlapping_schedules:
+            raise ValidationError("This schedule overlaps with another schedule in the same room.")
+
         super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.movie.title} at {self.start_time} in {self.room.name}"
-
 
 
 class OccupiedSeat(models.Model):
