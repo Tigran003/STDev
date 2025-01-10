@@ -137,7 +137,7 @@ class OccupiedSeatViewSet(ModelViewSet):
     queryset = OccupiedSeat.objects.all()
     serializer_class = SeatSerializer
 
-     def get_queryset(self):
+    def get_queryset(self):
         queryset = super().get_queryset()
         schedule_id = self.request.query_params.get('schedule', None)
 
@@ -145,7 +145,7 @@ class OccupiedSeatViewSet(ModelViewSet):
             queryset = queryset.filter(Q(schedule__id=schedule_id))
 
         return queryset
-
+        
     @get_occupied_seat_list_view_schema()
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
